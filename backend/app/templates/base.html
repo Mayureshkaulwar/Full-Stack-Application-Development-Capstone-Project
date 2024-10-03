@@ -1,0 +1,64 @@
+{% load static %}
+{% load account %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'styles/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/switcher.css' %}">
+  {% block title %}
+  <title>NFTs</title>
+  {% endblock %}
+
+  {% block css %}
+
+  {% endblock %}
+
+</head>
+
+<body>
+  <header>
+    {% include 'navbar.html' %}
+  </header>
+
+  <div class="main-container-for-messages">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li class="{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+        {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+  <div class="base-container">
+    {% block content %}
+
+    {% endblock %}
+
+    <footer>
+      {% include 'switcher.html' %}
+    </footer>
+  </div>
+
+  {% block js %}
+
+  {% endblock %}
+
+  {% include 'modal.html' %}
+
+  <script>
+    setTimeout(function () {
+      var messages = document.querySelectorAll('.messages')
+      messages.forEach(function (message) {
+        message.remove()
+      })
+    }, 5000)
+  </script>
+</body>
+
+</html>

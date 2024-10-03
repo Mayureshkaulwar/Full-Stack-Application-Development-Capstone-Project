@@ -1,0 +1,54 @@
+<!-- obj == profile object -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <style>
+    .profile-container {
+      padding: 100px;
+    }
+    
+    .send-message-btn {
+      float: right;
+      background-color: green;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-right: 100px;
+      color: snow;
+    }
+    
+    .send-message-btn:hover {
+      background-color: darkgreen;
+      color: snow;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1 style="margin-left:150px;">My profile</h1>
+
+  <div class="profile-container" style="display: flex; gap:50px;">
+    <div class="left">
+      <img src="{{ obj.image.url }}" width="300" height="300" style="border-radius: 50%;" />
+    </div>
+    <div class="right">
+      <h2>{{ obj.user.username }}</h2>
+      {% if obj.user.email %}
+        <a href="mailto:{{ obj.user.email }}">{{ obj.user.email }}</a>
+      {% else %}
+        <p>No email</p>
+      {% endif %}
+    </div>
+  </div>
+  <hr>
+  <!-- <div class="container">
+    <button id="ajax-call" style="background-color: green; cursor:pointer;">AJAX call</button>
+    <div id="response"></div>
+  </div> -->
+{% endblock %}
+
+{% block js %}
+  <script>
+  </script>
+{% endblock %}

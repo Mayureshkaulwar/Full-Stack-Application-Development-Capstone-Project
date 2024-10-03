@@ -1,0 +1,170 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/nft_form.css' %}">
+<div class="form">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} 
+        <div class="form-control">
+            <label for="nft-image">Upload your NFT</label>
+            <small>File types supported: JPG, PNG, GIF, SVG, MP4</small>
+            <div class="nft-image-wrapper">
+                {% if nft_obj %}
+                <input id="nft-image" type="file" placeholder="Upload or drag here" value="{{ nft_obj.image.url }}"
+                    name="image" />
+                {% else %}
+                <input id="nft-image" type="file" placeholder="Upload or drag here" name="image" />
+                {% endif %}
+                <img src="{% static 'icons/addImage.png' %}" alt="addImage" />
+                <small>Upload or drag here</small>
+            </div>
+        </div>
+        <div class="form-control name-and-cost">
+            <div>
+                <label for="name-nft">Name NFT</label>
+                {% if nft_obj %}
+                <input id="name-nft" type="text" placeholder="Name NFT" name="name" value="{{ nft_obj.name }}" />
+                {% else %}
+                <input id="name-nft" type="text" placeholder="Name NFT" name="name" />
+                {% endif %}
+            </div>
+            <div>
+                <label for="cost-nft">Price</label>
+                {% if nft_obj %}
+                <input id="cost-nft" type="number" placeholder="Price" name="price" value="{{ nft_obj.price }}" />
+                {% else %}
+                <input id="cost-nft" type="number" placeholder="Price" name="price" />
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-control">
+            <label for="description-nft">Description</label>
+            {% if nft_obj %}
+            <textarea id="description-nft" placeholder="Description" name="description"
+                value="{{ nft_obj.description }}">{{ nft_obj.description }}</textarea>
+            {% else %}
+            <textarea id="description-nft" placeholder="Description" name="description"> </textarea>
+            {% endif %}
+        </div>
+        <select id="select" name="select">
+            <option class="option" value="value1">Exboot Collection</option>
+            <option class="option" value="value2">Etherium Collection</option>
+            <option class="option" value="value3">Bitcoin Collection</option>
+         </select>
+        <div class="form-control">
+            <button type="submit" class="red-btn">
+                Create
+            </button>
+        </div>
+    </form>
+
+    <div class="demonstration">
+        <div class="screen">
+            <h2>Preview</h2>
+            {% if nft_obj %}
+            <img id="preview-image" src="{{ nft_obj.image.url }}" width="100%" height="440">
+            {% else %}
+            <img id="preview-image" src="{% static 'images/Salin5.jpg' %}" width="100%" height="440">
+            {% endif %}
+
+<div class="content">
+                <div class="col">
+                    <h1 class="title">
+                        {% if nft_obj %}
+                        <span class="col_f">{{ nft_obj.name }}</span>
+                        #{{ nft_obj.id }}
+                        {% else %}
+                        <span class="col_f">ExBoot NFT</span>
+                        #{{ length_of_nfts }}
+                        {% endif %}
+                    </h1>
+                    <p class="bid">Current Bid</p>
+                </div>
+                <div class="col">
+                    <div class="author-info">
+                        <span class="name">{{ request.user.username }}</span>
+                    </div>
+                    <p class="price">
+                        <img src="{% static 'icons/ethereum.svg' %}" width="30" height="30">
+                        <span>
+                            {% if nft_obj %}
+                            {{ nft_obj.price }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer">
+                <h3 class="collection-text"></h3>
+                <div class="description">{% if nft_obj %}{{ nft_obj.description }}{% else %}{% endif %}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const nftImage = document.getElementById('nft-image');
+    const nftImageWrapper = document.querySelector('.nft-image-wrapper');
+    const nftImageWrapperImg = document.querySelector('.demonstration #preview-image');
+    const collText = document.querySelector(".demonstration .footer .collection-text")
+
+    // ========================================================================================
+    // ========================================================================================
+    // ========================================================================================
+    // ========================================================================================
+
+    nftImage.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const result = reader.result;
+            nftImageWrapperImg.src = result;
+        }
+        reader.readAsDataURL(file);
+    });
+
+    const optionsWrapper = document.querySelector('select');
+    const drpContent = document.querySelector('option');
+
+    optionsWrapper.addEventListener('click', () => {
+        drpContent.style.display = drpContent.style.display === 'block' ? 'none' : 'block';
+    });
+
+    drpContent.addEventListener('click', (e) => {
+        const option = e.target.dataset.option;
+        if (option) {
+            optionsWrapper.querySelector('option').textContent = e.target.textContent;
+            drpContent.style.display = 'none';
+        }
+    });
+
+    // ========================================================================================
+    // ========================================================================================
+    // ========================================================================================
+    // ========================================================================================
+
+    const formName = document.querySelector("#name-nft")
+    const formCost = document.querySelector("#cost-nft")
+    const formDesc = document.querySelector("#description-nft")
+    const formCol = document.querySelector("#select")
+    const descName = document.querySelector(".demonstration .content .title span")
+    const descPreview = document.querySelector(".demonstration .footer .description")
+    const descPrice = document.querySelector(".demonstration .content .price span")
+    const descCol = document.querySelector(".demonstration .footer .collection-text")
+
+
+    formName.addEventListener('input', (e) => {
+        descName.textContent = e.target.value
+    })
+    formCost.addEventListener('input', (e) => {
+        descPrice.textContent = e.target.value
+    })
+    formDesc.addEventListener('input', (e) => {
+        descPreview.textContent = e.target.value
+    })
+    formCol.addEventListener('change', (e) => {
+        descCol.textContent = e.target.value;
+    });
+</script>

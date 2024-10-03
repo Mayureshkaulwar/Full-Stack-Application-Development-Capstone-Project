@@ -1,0 +1,65 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/navbar.css' %}" />
+
+<nav>
+  <div class="left">
+    <a href="{% url 'landing_page' %}" id="logo"><img src="{% static 'icons/logo.png' %}" alt="logo" /></a>
+    <div class="searchbar-warpper-parent">
+      {% include 'searchbar.html' %}
+    </div>
+  </div>
+  <div class="burger-menu-container">
+    <button class="burger-menu">
+      <div></div>
+      <div></div>
+      <div></div>
+    </button>
+  </div>
+  <div class="right">
+    <a href="{% url 'create_nft' %}">Create NFT💥</a>
+    <a href="{% url 'explore' %}" class="selected">Explore</a>
+    <a href="{% url 'faq' %}">FAQ</a>
+    <a href="{% url 'about_us' %}">About us</a>
+    <a href="{% url 'become_artist' %}">Become artist</a>
+    <span class="dropdown-container lang-drp"> 
+      <span class="current-lang-container">{{ request.session.current_language }}</span>
+      <div class="dropdown">
+        <a href="{% url 'change_translation' 'en' %}">English</a>
+        <a href="{% url 'change_translation' 'ru' %}">Russian</a>
+        <a href="{% url 'change_translation' 'uz' %}">Uzbek</a>
+      </div>
+    </span>
+
+
+    {% if request.user.is_authenticated %}
+    <div class="dropdown-container">
+      <div class="user">
+        <a href="{% url 'profile_page' request.user.id %}">
+          {{ request.user.username }}
+          {% if request.session.has_unread_messages %}
+          <span class="unread-msgs">🔔</span>
+          {% endif %}
+        </a>
+      </div>
+      <div class="dropdown">
+        <a href="{% url 'messages_page' request.user.profile.id %}">Messages</a>
+        <a href="{% url 'custom_logout' %}">Log out</a>
+      </div>
+    </div>
+    {% else %}
+    <button class="open-modal">Account</button>
+    {% endif %}
+  </div>
+</nav>
+{% block js %}
+<script>
+  const right = document.querySelector('body > header:nth-child(1) > nav:nth-child(2) > div.right:nth-child(3)')
+  const burgerMenuBtn = document.querySelector('.burger-menu')
+  function openCloseFn() {
+    right.classList.toggle('open')
+    burgerMenuBtn.classList.toggle('open')
+  }
+  burgerMenuBtn.addEventListener('click', openCloseFn)
+</script>
+{% endblock %}

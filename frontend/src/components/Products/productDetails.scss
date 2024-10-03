@@ -1,0 +1,270 @@
+@import "../../assets/styles/settings";
+
+.product-details-wrapper {
+  padding: 50px 250px;
+
+  .intro {
+    color: $light;
+    font-size: 1.2em;
+  }
+
+  .edit-buttons {
+    float: right;
+    position: relative;
+    top: -100px;
+
+    button {
+      margin-right: 5px;
+
+      &.update-btn {
+        background-color: #00FF0080;
+        box-shadow: 0 0 10px 0 #00FF0080, 0 0 10px 0 #00FF0080;
+      }
+
+      &.delete-btn {
+        background-color: #FF000080;
+        box-shadow: 0 0 10px 0 #FF000080, 0 0 10px 0 #FF000080;
+      }
+
+      &:hover {
+        &.update-btn {
+          background-color: #00FF00;
+          box-shadow: 0 0 15px 0 $success, 0 0 15px 0 $success;
+        }
+
+        &.delete-btn {
+          background-color: #FF0000;
+          box-shadow: 0 0 15px 0 $danger, 0 0 15px 0 $danger;
+        }
+      }
+    }
+
+    // TODO: add @media 
+  }
+
+  .heading-wrapper {
+
+  }
+
+  .image-wrapper {
+    @include grid(2);
+    grid-template-columns: 1fr 2fr;
+    margin: 50px 0 30px 0;
+
+    img {
+      width: 100%;
+      height: 350px;
+      filter: grayscale(100%);
+      object-fit: cover;
+
+      &:hover {
+        filter: grayscale(0);
+      }
+    }
+  }
+
+  .content {
+    color: lightgray;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+
+  .documents {
+    margin: 50px 0;
+
+    .action-buttons {
+      margin: 40px 0;
+      @include flex($gap: 20px);
+
+      button.download {
+        padding: 30px 40px 30px 30px;
+        background-color: $dark-lighter;
+        width: 300px;
+        display: inline-block;
+
+        display: grid;
+        grid-template-columns: 15px 1fr 15px;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+
+        .middle {
+          text-align: left;
+        }
+
+        svg {
+          transform: scale(2.5);
+          border-radius: 50%;
+          color: darkgray;
+        }
+
+        .right {
+          a {
+            display: inline-block;
+
+            &:hover {
+              svg {
+                color: $warning;
+              }
+            }
+          }
+        }
+
+        &:hover {
+          .right {
+            a {
+              svg {
+                box-shadow: 0 0 10px 0 $warning-t, 0 0 10px 0 $warning-t;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .lycences {
+      margin: 100px 0;
+
+      .content {
+        @include flex($gap: 100px);
+
+        .first {
+          padding: 40px 40px 40px 0;
+        }
+
+        .second {
+          padding: 10px;
+
+          p {
+            position: relative;
+            left: 25px;
+            bottom: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  .deletion-dialog {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background-color: rgb(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    @include flex(center, center, center, 0);
+
+
+    .content {
+      min-width: 30%;
+      text-align: center;
+      padding: 20px;
+      border-radius: 15px;
+      background-color: $dark;
+      box-shadow: 2px 2px 10px $warning, -2px -2px 10px $warning;
+
+      p {
+        color: lightgray;
+      }
+
+      .confirm-dialog-buttons {
+        margin: 20px 0;
+
+        button {
+          margin: 0 10px;
+          font-size: 1.5em;
+          border-radius: 10px;
+
+
+          &.update-btn {
+            background-color: #00FF00;
+          }
+
+          &.delete-btn {
+            background-color: #FF0000;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $xx-large-screen) {
+  .product-details-wrapper {
+    padding: 50px 150px;
+
+    .image-wrapper {
+      grid-template-columns: 2fr 2fr;
+      margin: 50px 0 30px 0;
+    }
+  }
+}
+
+@media (max-width: $x-large-screen) {
+  .product-details-wrapper {
+    padding: 50px 100px;
+  }
+}
+
+@media (max-width: $large-screen) {
+  .product-details-wrapper {
+    padding: 50px 50px;
+  }
+}
+
+@media (max-width: $medium-screen) {
+  .product-details-wrapper {
+    padding: 50px 30px;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .product-details-wrapper {
+    padding: 50px 15px;
+
+    .image-wrapper {
+      @include grid(1);
+      grid-template-columns: 1fr;
+    }
+
+
+    .documents {
+      .action-buttons {
+        @include flex();
+        flex-direction: column;
+
+        button.download {
+          display: grid;
+          grid-template-columns: 35px 2fr 35px;
+          width: 90vw;
+        }
+      }
+
+      .lycences {
+        margin: 50px 0;
+        @include flex(column, center, center, 50px);
+
+        .content {
+          margin: 0;
+          padding: 0;
+          gap: 0;
+
+
+          .first {
+            margin: 0 0 0 10px;
+            padding: 0;
+          }
+
+          .second {
+            padding: 0;
+            position: relative;
+            bottom: 30px;
+          }
+        }
+      }
+    }
+  }
+}
